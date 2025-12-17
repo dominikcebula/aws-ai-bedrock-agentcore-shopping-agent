@@ -4,21 +4,21 @@
 
 A mock microservice that provides a catalog of products via a REST API. The service exposes a simple endpoint that returns a list of 30 products including computer accessories (mice, keyboards, monitors, headsets, webcams) and laptops from various brands (Dell, HP, ASUS, Lenovo, Apple).
 
-## Technology
+## 🛠️ Technology
 
 - **Python 3.12** - Runtime environment
 - **Flask** - Lightweight web framework for building the REST API
 - **AWS Elastic Beanstalk** - Cloud deployment platform for hosting the microservice
 
-## Usage
+## 🚀 Usage
 
-### Requirements
+### 📋 Requirements
 
 - Python 3.12
 - AWS CLI configured with valid credentials
 - AWS Elastic Beanstalk CLI (`eb`) installed and configured
 
-### Running locally
+### 💻 Running locally
 
 1. Create and activate a virtual environment:
    ```bash
@@ -41,7 +41,7 @@ A mock microservice that provides a catalog of products via a REST API. The serv
    curl http://localhost:5000/api/v1/products
    ```
 
-### Deployment
+### ☁️ Deployment
 
 Run the deployment script to deploy the microservice to AWS Elastic Beanstalk:
 
@@ -54,7 +54,7 @@ The script will automatically:
 - Create the environment (if not already created)
 - Deploy the application
 
-### Terminating
+### 🗑️ Terminating
 
 Run the destroy script to terminate the AWS Elastic Beanstalk environment:
 
