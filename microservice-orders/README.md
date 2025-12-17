@@ -6,21 +6,21 @@ A RESTful microservice for managing customer orders. Provides endpoints to creat
 orders. Each order contains product items with pricing and quantity information, with automatic calculation of order
 totals.
 
-## Technology
+## 🛠️ Technology
 
 - **Python 3.12** - Runtime environment
 - **Flask** - Lightweight web framework for building the REST API
 - **AWS Elastic Beanstalk** - Cloud deployment platform for hosting the microservice
 
-## Usage
+## 🚀 Usage
 
-### Requirements
+### 📋 Requirements
 
 - Python 3.12
 - AWS CLI configured with valid credentials
 - AWS Elastic Beanstalk CLI (`eb`) installed and configured
 
-### Running locally
+### 💻 Running locally
 
 1. Create and activate a virtual environment:
    ```bash
@@ -80,7 +80,7 @@ totals.
    curl -X DELETE http://localhost:5000/api/v1/orders/{order_id}
    ```
 
-### Deployment
+### ☁️ Deployment
 
 Run the deployment script to deploy the microservice to AWS Elastic Beanstalk:
 
@@ -94,7 +94,7 @@ The script will automatically:
 - Create the environment (if not already created)
 - Deploy the application
 
-### Terminating
+### 🗑️ Terminating
 
 Run the destroy script to terminate the AWS Elastic Beanstalk environment:
 
