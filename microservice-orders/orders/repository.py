@@ -49,3 +49,7 @@ def update_order(order: Order) -> Order:
     order.updated_at = datetime.utcnow()
     _orders_db[order.id] = order
     return order
+
+
+def clear_orders() -> None:
+    _orders_db.clear()

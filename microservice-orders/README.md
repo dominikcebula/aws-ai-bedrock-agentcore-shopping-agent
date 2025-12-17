@@ -38,7 +38,8 @@ TBD
 
 4. Test the endpoint:
 
-   TBD
+   TBD - here create curl sample interactions that will create order, then update it and then retrieve and list the
+   order, use some data that looks like real data around keyboards, mouses, laptops, screens etc.
 
 ### Deployment
 

@@ -15,9 +15,6 @@ def register(app: Flask) -> None:
         if order.status == OrderStatus.CANCELLED:
             return jsonify({"error": "Order is already cancelled"}), 400
 
-        if order.status in [OrderStatus.CONFIRMED]:
-            return jsonify({"error": "Cannot cancel an order that has been shipped or delivered"}), 400
-
         order.status = OrderStatus.CANCELLED
         update_order(order)
         return jsonify(order.to_dict())
