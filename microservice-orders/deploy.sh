@@ -27,6 +27,6 @@ fi
 echo "🚀 Deploying to Elastic Beanstalk Environment ..."
 eb deploy || {
 	echo "❌ Error occurred while deploying to Elastic Beanstalk Environment"
-        exit 1
+  exit 1
 }
 echo "✅ Done"
