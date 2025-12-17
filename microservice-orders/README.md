@@ -2,7 +2,9 @@
 
 ## 📝 Overview
 
-TBD
+A RESTful microservice for managing customer orders. Provides endpoints to create, retrieve, update, list, and cancel
+orders. Each order contains product items with pricing and quantity information, with automatic calculation of order
+totals.
 
 ## Technology
 
@@ -36,10 +38,47 @@ TBD
    python application.py
    ```
 
-4. Test the endpoint:
+4. Test the endpoints:
 
-   TBD - here create curl sample interactions that will create order, then update it and then retrieve and list the
-   order, use some data that looks like real data around keyboards, mouses, laptops, screens etc.
+   **Create an order:**
+   ```bash
+   curl -X POST http://localhost:5000/api/v1/orders \
+     -H "Content-Type: application/json" \
+     -d '{
+       "items": [
+         {"product_id": "KB-MX-001", "name": "Logitech MX Keys Wireless Keyboard", "price": 119.99, "quantity": 1},
+         {"product_id": "MS-MX-003", "name": "Logitech MX Master 3S Mouse", "price": 99.99, "quantity": 1}
+       ]
+     }'
+   ```
+
+   **Update the order** (replace `{order_id}` with the ID from the create response):
+   ```bash
+   curl -X PUT http://localhost:5000/api/v1/orders/{order_id} \
+     -H "Content-Type: application/json" \
+     -d '{
+       "items": [
+         {"product_id": "KB-MX-001", "name": "Logitech MX Keys Wireless Keyboard", "price": 119.99, "quantity": 1},
+         {"product_id": "MS-MX-003", "name": "Logitech MX Master 3S Mouse", "price": 99.99, "quantity": 1},
+         {"product_id": "MON-DELL-27", "name": "Dell UltraSharp 27\" 4K Monitor", "price": 449.99, "quantity": 2}
+       ]
+     }'
+   ```
+
+   **Get a single order:**
+   ```bash
+   curl http://localhost:5000/api/v1/orders/{order_id}
+   ```
+
+   **List all orders:**
+   ```bash
+   curl http://localhost:5000/api/v1/orders
+   ```
+
+   **Cancel an order:**
+   ```bash
+   curl -X DELETE http://localhost:5000/api/v1/orders/{order_id}
+   ```
 
 ### Deployment
 
