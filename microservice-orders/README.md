@@ -38,7 +38,7 @@ TBD
 
 4. Test the endpoint:
 
-    TBD
+   TBD
 
 ### Deployment
 
@@ -49,6 +49,7 @@ Run the deployment script to deploy the microservice to AWS Elastic Beanstalk:
 ```
 
 The script will automatically:
+
 - Initialize Elastic Beanstalk (if not already initialized)
 - Create the environment (if not already created)
 - Deploy the application
