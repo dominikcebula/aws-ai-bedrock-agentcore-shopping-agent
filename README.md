@@ -20,6 +20,8 @@ Cameras, Accessories, Laptops).
 - `GET /api/v1/products` - List all products (supports `?category=` filter)
 - `GET /api/v1/products/<id>` - Get a single product
 
+See more under [README.md](microservice-products-catalog/README.md).
+
 ### Orders Service (`microservice-orders`)
 
 A REST API for managing customer orders with full CRUD operations.
@@ -32,11 +34,13 @@ A REST API for managing customer orders with full CRUD operations.
 - `PUT /api/v1/orders/<id>` - Update an order
 - `DELETE /api/v1/orders/<id>` - Cancel an order
 
+See more under [README.md](microservice-orders/README.md).
+
 ## 🛠️ Tech Stack
 
 - **Language:** Python 3.12
-- **Framework:** Flask 3.1.2
-- **Testing:** pytest 8.3.4
+- **Framework:** Flask
+- **Testing:** pytest
 - **Deployment:** AWS Elastic Beanstalk
 - **Storage:** In-memory (no database required)
 
