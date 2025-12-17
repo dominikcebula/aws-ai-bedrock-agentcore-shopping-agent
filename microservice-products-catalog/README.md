@@ -2,7 +2,9 @@
 
 ## 📝 Overview
 
-A mock microservice that provides a catalog of products via a REST API. The service exposes a simple endpoint that returns a list of 30 products including computer accessories (mice, keyboards, monitors, headsets, webcams) and laptops from various brands (Dell, HP, ASUS, Lenovo, Apple).
+A mock microservice that provides a catalog of products via a REST API. The service exposes a simple endpoint that
+returns a list of 30 products including computer accessories (mice, keyboards, monitors, headsets, webcams) and laptops
+from various brands (Dell, HP, ASUS, Lenovo, Apple).
 
 ## 🛠️ Technology
 
@@ -50,6 +52,7 @@ Run the deployment script to deploy the microservice to AWS Elastic Beanstalk:
 ```
 
 The script will automatically:
+
 - Initialize Elastic Beanstalk (if not already initialized)
 - Create the environment (if not already created)
 - Deploy the application
