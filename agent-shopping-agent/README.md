@@ -30,7 +30,7 @@ Orders microservice is used to create orders for products that the agent has bou
 - Create venv
     ```bash
     python -m venv .venv
-    source venv/bin/activate
+    source .venv/bin/activate
     ```
 - Install requirements
     ```bash
@@ -42,6 +42,23 @@ Orders microservice is used to create orders for products that the agent has bou
 - Run agent using a local runner
   ```bash
   python agent_runner_local.py -user-input "What is the result of operation 4+2?"
+  ```
+
+- Run down line microservices locally
+  ```bash
+  cd ../microservice-products-catalog
+  python -m venv .venv
+  source .venv/bin/activate
+  pip install -r requirements.txt
+  FLASK_RUN_PORT=5001 python application.py
+  ```
+  
+  ```bash
+  cd ../microservice-orders
+  python -m venv .venv
+  source .venv/bin/activate
+  pip install -r requirements.txt
+  FLASK_RUN_PORT=5002 python application.py
   ```
 
 ### ☁️ 3. AWS Setup
