@@ -1,0 +1,6 @@
+strands-agents
+strands-agents-tools
+boto3
+boto3-stubs
+bedrock-agentcore<=0.1.5
+bedrock-agentcore-starter-toolkit==0.1.14
