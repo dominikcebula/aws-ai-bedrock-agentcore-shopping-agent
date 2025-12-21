@@ -31,7 +31,8 @@ Product Catalog:
 
 Order Management:
 - create_order: Create a new order with items (requires product_id, name, price, quantity for each item)
-- list_orders: List all orders, optionally filtered by status (confirmed, cancelled)
+- list_orders: List all orders
+- list_orders_filtered_by_status: List orders, filtered by status
 - get_order: Get details of a specific order by its ID
 - update_order: Update an order's items or status
 - cancel_order: Cancel an existing order

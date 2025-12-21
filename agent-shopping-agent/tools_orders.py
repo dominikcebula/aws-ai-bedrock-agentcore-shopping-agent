@@ -30,10 +30,27 @@ def create_order(items: list[dict]) -> dict:
     return response.json()
 
 
-@tool(description="List all orders, optionally filtered by status")
-def list_orders(status: str = None) -> dict:
+@tool(description="List all orders")
+def list_orders() -> dict:
     """
-    Tool description - List all orders, optionally filtered by status.
+    Tool description - List all orders
+
+    #Returns:
+        A dictionary containing 'orders' list and 'count' of orders found.
+    """
+    url = f"{ORDERS_BASE_URL}/api/v1/orders"
+
+    response = requests.get(url)
+    if response.status_code == 400:
+        return {"error": response.json().get("error", "Invalid status")}
+    response.raise_for_status()
+    return response.json()
+
+
+@tool(description="List orders, filtered by status")
+def list_orders_filtered_by_status(status: str) -> dict:
+    """
+    Tool description - List orders, filtered by status.
 
     #Args:
         status: Optional status filter ("confirmed" or "cancelled")
@@ -42,9 +59,7 @@ def list_orders(status: str = None) -> dict:
         A dictionary containing 'orders' list and 'count' of orders found.
     """
     url = f"{ORDERS_BASE_URL}/api/v1/orders"
-    params = {}
-    if status:
-        params["status"] = status
+    params = {"status": status}
 
     response = requests.get(url, params=params)
     if response.status_code == 400:
