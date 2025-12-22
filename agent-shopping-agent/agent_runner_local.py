@@ -13,7 +13,7 @@ def strands_agent_bedrock(user_input):
 
 
 def run_interactive_mode():
-    print("\nShopping Agent\n")
+    print("\nShopping Agent - Local Runner\n")
     print("Agent has access to product catalog and can create, list, update orders on user behalf.")
     print("Ask about available products and order creation for those products.\n")
     print("\nOptions:")

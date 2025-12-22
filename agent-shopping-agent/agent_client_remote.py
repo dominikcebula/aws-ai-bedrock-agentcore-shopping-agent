@@ -1,4 +1,5 @@
 import json
+import logging
 
 import boto3
 from boto3.session import Session
@@ -8,22 +9,47 @@ region = boto_session.region_name
 
 ssm_client = boto_session.client('ssm', region_name=region)
 
+logging.basicConfig(format='%(asctime)s - %(levelname)s - %(message)s', level=logging.INFO)
 
-def invoke_agent():
+logger = logging.getLogger(__name__)
+
+
+def run_interactive_mode():
+    print("\nShopping Agent - Remote AWS Client\n")
+    print("Agent has access to product catalog and can create, list, update orders on user behalf.")
+    print("Ask about available products and order creation for those products.\n")
+    print("\nOptions:")
+    print("  'exit' - Exit the program")
+
     agent_arn = ssm_client.get_parameter(Name='/agent/runtime/agent_arn')
     agent_arn = agent_arn['Parameter']['Value']
     print(f"Agent ARN: {agent_arn}")
 
-    agentcore_client = boto3.client(
-        'bedrock-agentcore',
-        region_name=region
-    )
+    agentcore_client = boto3.client('bedrock-agentcore', region_name=region)
 
+    while True:
+        try:
+            user_input = input("\n> ")
+
+            if user_input.lower() == "exit":
+                print("\nGoodbye! 👋")
+                break
+
+            process_user_input(agent_arn, agentcore_client, user_input)
+        except KeyboardInterrupt:
+            print("\n\nExecution interrupted. Exiting...")
+            break
+        except Exception:
+            logger.exception("\nAn error occurred:")
+            print("Please try a different request.")
+
+
+def process_user_input(agent_arn, agentcore_client, user_input: str):
     boto3_response = agentcore_client.invoke_agent_runtime(
         agentRuntimeArn=agent_arn,
         qualifier="DEFAULT",
         payload=json.dumps(
-            {"prompt": "Using the provided tools, answer the questions: What is 12+50? What is the weather?"})
+            {"prompt": user_input})
     )
     if "text/event-stream" in boto3_response.get("contentType", ""):
         content = []
@@ -36,14 +62,9 @@ def invoke_agent():
                     content.append(line)
         print("\n".join(content))
     else:
-        try:
-            events = []
-            for event in boto3_response.get("response", []):
-                events.append(event)
-        except Exception as e:
-            events = [f"Error reading EventStream: {e}"]
-        print(json.loads(events[0].decode("utf-8")))
+        for event in boto3_response.get("response", []):
+            print(f"{event.decode('unicode_escape')}")
 
 
 if __name__ == "__main__":
-    invoke_agent()
+    run_interactive_mode()
