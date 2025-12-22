@@ -4,9 +4,44 @@ from boto3.session import Session
 boto_session = Session()
 region = boto_session.region_name
 
-agent_name = "agent_strands_with_bedrock_model"
+agent_name = "agent_shopping_agent"
 
 ssm_client = boto_session.client('ssm', region_name=region)
+eb_client = boto_session.client('elasticbeanstalk', region_name=region)
+
+
+def discover_microservice_urls():
+    print("Discovering microservice URLs from Elastic Beanstalk...")
+
+    products_url = get_elastic_beanstalk_url("microservice-products-catalog")
+    print(f"Products Catalog URL: {products_url}")
+
+    orders_url = get_elastic_beanstalk_url("microservice-orders")
+    print(f"Orders URL: {orders_url}")
+
+    return {
+        "PRODUCTS_CATALOG_BASE_URL": products_url,
+        "ORDERS_BASE_URL": orders_url
+    }
+
+
+def get_elastic_beanstalk_url(application_name: str) -> str:
+    response = eb_client.describe_environments(
+        ApplicationName=application_name,
+        IncludeDeleted=False
+    )
+
+    environments = response.get('Environments', [])
+    if not environments:
+        raise ValueError(f"No active environment found for application: {application_name}")
+
+    for env in environments:
+        if env.get('Status') in ['Ready', 'Launching', 'Updating']:
+            cname = env.get('CNAME')
+            if cname:
+                return f"http://{cname}"
+
+    raise ValueError(f"No ready environment with CNAME found for application: {application_name}")
 
 
 def configure_agentcore_runtime():
@@ -25,11 +60,12 @@ def configure_agentcore_runtime():
     return agentcore_runtime
 
 
-def launch_agentcore_runtime(agentcore_runtime):
+def launch_agentcore_runtime(agentcore_runtime, env_vars: dict):
     print("Launching Agent to AgentCore Runtime...")
     print("This may take several minutes...")
-    launch_result = agentcore_runtime.launch()
-    print("Launch completed ✓")
+    print(f"Environment variables: {env_vars}")
+    launch_result = agentcore_runtime.launch(env_vars=env_vars)
+    print("Launch completed")
     print(f"Agent ARN: {launch_result.agent_arn}")
     print(f"Agent ID: {launch_result.agent_id}")
 
@@ -51,8 +87,9 @@ def store_agent_arn(launch_result):
 
 
 def main():
+    env_vars = discover_microservice_urls()
     agentcore_runtime = configure_agentcore_runtime()
-    launch_result = launch_agentcore_runtime(agentcore_runtime)
+    launch_result = launch_agentcore_runtime(agentcore_runtime, env_vars)
     store_agent_arn(launch_result)
 
 

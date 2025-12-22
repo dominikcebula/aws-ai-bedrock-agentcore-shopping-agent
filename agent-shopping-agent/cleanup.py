@@ -3,7 +3,7 @@ from pathlib import Path
 from bedrock_agentcore_starter_toolkit.operations.runtime import destroy_bedrock_agentcore
 from boto3.session import Session
 
-agent_name = "agent_strands_with_bedrock_model"
+agent_name = "agent_shopping_agent"
 
 boto_session = Session()
 
