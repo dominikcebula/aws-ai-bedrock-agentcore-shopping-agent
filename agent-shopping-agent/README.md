@@ -39,12 +39,12 @@ Orders microservice is used to create orders for products that the agent has bou
 
 ### 💻 2. Run Locally
 
-- Run agent using a local runner
+- Run agent using a local runner - agent will run in an interactive mode
   ```bash
-  python agent_runner_local.py -user-input "What is the result of operation 4+2?"
+  python agent_runner_local.py
   ```
 
-- Run down line microservices locally
+- Run down-line microservices locally
   ```bash
   cd ../microservice-products-catalog
   python -m venv .venv
@@ -52,7 +52,7 @@ Orders microservice is used to create orders for products that the agent has bou
   pip install -r requirements.txt
   FLASK_RUN_PORT=5001 python application.py
   ```
-  
+
   ```bash
   cd ../microservice-orders
   python -m venv .venv
