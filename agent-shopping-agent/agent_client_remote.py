@@ -63,7 +63,7 @@ def process_user_input(agent_arn, agentcore_client, user_input: str):
         print("\n".join(content))
     else:
         for event in boto3_response.get("response", []):
-            print(f"{event.decode('unicode_escape')}")
+            print(f"{event.decode('utf-8').replace('\\n', '\n')}")
 
 
 if __name__ == "__main__":
