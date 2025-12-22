@@ -11,13 +11,13 @@ eb_client = boto_session.client('elasticbeanstalk', region_name=region)
 
 
 def discover_microservice_urls():
-    print("Discovering microservice URLs from Elastic Beanstalk...")
+    print("🔍 Discovering microservice URLs from Elastic Beanstalk...")
 
     products_url = get_elastic_beanstalk_url("microservice-products-catalog")
-    print(f"Products Catalog URL: {products_url}")
+    print(f"   📦 Products Catalog URL: {products_url}")
 
     orders_url = get_elastic_beanstalk_url("microservice-orders")
-    print(f"Orders URL: {orders_url}")
+    print(f"   🛒 Orders URL: {orders_url}")
 
     return {
         "PRODUCTS_CATALOG_BASE_URL": products_url,
@@ -45,7 +45,7 @@ def get_elastic_beanstalk_url(application_name: str) -> str:
 
 
 def configure_agentcore_runtime():
-    print("Configuring AgentCore Runtime...")
+    print("⚙️  Configuring AgentCore Runtime...")
     agentcore_runtime = Runtime()
     agentcore_runtime.configure(
         entrypoint="agent_runner_aws.py",
@@ -55,19 +55,19 @@ def configure_agentcore_runtime():
         region=region,
         agent_name=agent_name
     )
-    print("AgentCore Runtime configured successfully.")
+    print("✅ AgentCore Runtime configured successfully.")
 
     return agentcore_runtime
 
 
 def launch_agentcore_runtime(agentcore_runtime, env_vars: dict):
-    print("Launching Agent to AgentCore Runtime...")
-    print("This may take several minutes...")
-    print(f"Environment variables: {env_vars}")
+    print("🚀 Launching Agent to AgentCore Runtime...")
+    print("⏳ This may take several minutes...")
+    print(f"🔧 Environment variables: {env_vars}")
     launch_result = agentcore_runtime.launch(env_vars=env_vars)
-    print("Launch completed")
-    print(f"Agent ARN: {launch_result.agent_arn}")
-    print(f"Agent ID: {launch_result.agent_id}")
+    print("✅ Launch completed")
+    print(f"🤖 Agent ARN: {launch_result.agent_arn}")
+    print(f"🆔 Agent ID: {launch_result.agent_id}")
 
     return launch_result
 
@@ -80,10 +80,10 @@ def store_agent_arn(launch_result):
         Description='Agent ARN',
         Overwrite=True
     )
-    print("✓ Agent ARN stored in Parameter Store")
+    print("💾 Agent ARN stored in Parameter Store")
 
-    print("\nConfiguration stored successfully!")
-    print(f"Agent ARN: {launch_result.agent_arn}")
+    print("\n🎉 Configuration stored successfully!")
+    print(f"🤖 Agent ARN: {launch_result.agent_arn}")
 
 
 def main():
