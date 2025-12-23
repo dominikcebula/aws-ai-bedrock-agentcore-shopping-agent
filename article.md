@@ -44,10 +44,7 @@ The below diagram depicts the architecture of the solution.
 Agent is built using Strands Agents Python SDK and is hosted in Amazon Bedrock AgentCore. Agent has access to two
 backing services: Products Catalog and Order Management System. Both services are implemented as simple REST APIs. Agent
 accesses backing services using MCP Tools that are forwarding requests to the backing services. Backing services are
-hosted using AWS Elastic Beanstalk.
-
-Agent is using LLM hosted in Amazon Bedrock to process user prompts, decide which tools to use when processing user
-requests and generate responses.
+hosted using AWS Elastic Beanstalk. LLM hosted in Amazon Bedrock.
 
 ## MCP Tools
 
