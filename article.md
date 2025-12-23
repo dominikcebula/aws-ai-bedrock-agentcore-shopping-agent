@@ -289,19 +289,57 @@ You can see the full source code
 under [microservice-products-catalog](https://github.com/dominikcebula/aws-ai-bedrock-agentcore-shopping-agent/tree/main/microservice-products-catalog)
 and [microservice-orders](https://github.com/dominikcebula/aws-ai-bedrock-agentcore-shopping-agent/tree/main/microservice-orders).
 
-## Deployment
+## Usage
 
-### Agent
+## Prerequisites
 
-TBD
-
-### Backing Services
-
-TBD
+- Linux
+- Bash
+- Python 3.12 with pip installed on your machine
+- AWS CLI installed and configured
+- EB CLI installed and configured
 
 ## Running the Agent locally
 
-TBD
+You can run agent and backing services locally (it is still required to have AWS credentials configured since LLM is
+running in AWS Bedrock).
+
+First run agent using a local runner - agent will run in an interactive mode:
+
+```bash
+python -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+python agent_runner_local.py
+```
+
+Then run products catalog microservice locally:
+
+```bash
+cd ../microservice-products-catalog
+python -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+FLASK_RUN_PORT=5001 python application.py
+```
+
+and then run orders microservice locally:
+
+```bash
+cd ../microservice-orders
+python -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+FLASK_RUN_PORT=5002 python application.py
+```
+
+Now you can use the agent with prompts like below:
+
+![demo-01.png](assets/demo-01.png)
+
+Which will result in the following response:
+
+![demo-02.png](assets/demo-02.png)
 
 ## Running the Agent on AWS
 
