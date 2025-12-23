@@ -2,11 +2,13 @@
 
 ## Introduction
 
-TBD
+TBD - in this article I will show how to create a shopping agent using Strands Agents Python SDK that will be hosted in
+Amazon Bedrock AgentCore. Agent will have access to a simplified Products Catalog and Order Management System that will
+allow agent to create orders on user behalf.
 
 ## Architecture
 
-TBD
+The below diagram depicts the architecture of the solution.
 
 ## MCP Tools
 
@@ -34,7 +36,9 @@ TBD
 
 ## References
 
-TBD
+- [Amazon Bedrock AgentCore Developer Guide](https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/what-is-bedrock-agentcore.html)
+- [Amazon Bedrock AgentCore Code Samples](https://github.com/awslabs/amazon-bedrock-agentcore-samples)
+- [Strands Agents Python SDK](https://strandsagents.com/latest/documentation/docs/)
 
 ## Summary
 
