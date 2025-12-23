@@ -1,5 +1,7 @@
 # 📦 Amazon Bedrock AgentCore Shopping Agent Code Sample
 
+![logo.png](assets/logo.png)
+
 ## 📝 Overview
 
 This repository contains code for a simplified shopping agent using the Strands Agents Python SDK, hosted in
