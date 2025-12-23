@@ -66,6 +66,9 @@ Orders microservice is used to create orders for products that the agent has bou
 
 ### ☁️ 3. AWS Setup
 
+Prior to deploying the agent to AWS, make sure that [microservice-products-catalog](../microservice-products-catalog)
+and [microservice-orders](../microservice-orders) are already deployed.
+
 - Deploy Agent to AWS:
   ```bash
   python -m venv .venv
