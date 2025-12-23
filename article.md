@@ -122,7 +122,74 @@ under  [agent.py](https://github.com/dominikcebula/aws-ai-bedrock-agentcore-shop
 
 ### MCP Tools
 
-TBD
+Agent is using data accessed via REST APIs from backing services exposed as MCP Tools. The following code snippet shows
+MCP Tools made
+available for the agent. Each MCP Tool is acting as a proxy to the backing service REST API.
+
+```python
+@tool(description="List all products from the catalog")
+def list_products() -> dict:
+    """
+    Tool description - List all products from the catalog
+
+    #Returns:
+        A dictionary containing 'products' list and 'count' of products found.
+    """
+    url = f"{PRODUCTS_CATALOG_BASE_URL}/api/v1/products"
+
+    response = requests.get(url)
+    response.raise_for_status()
+    return response.json()
+```
+
+```python
+@tool(description="Create a new order with the specified items")
+def create_order(items: list[dict]) -> dict:
+    """
+    Tool description - Create a new order with the specified items.
+
+    #Args:
+        items: List of order items. Each item must have:
+               - product_id: The product ID (string)
+               - name: Product name (string)
+               - price: Product price (float)
+               - quantity: Number of items to order (int)
+
+    #Returns:
+        The created order with id, items, total_value, status, created_at, and updated_at.
+    """
+    url = f"{ORDERS_BASE_URL}/api/v1/orders"
+
+    response = requests.post(url, json={"items": items})
+    if response.status_code == 400:
+        return {"error": response.json().get("error", "Invalid order data")}
+    response.raise_for_status()
+    return response.json()
+
+
+@tool(description="List all orders")
+def list_orders() -> dict:
+    """
+    Tool description - List all orders
+
+    #Returns:
+        A dictionary containing 'orders' list and 'count' of orders found.
+    """
+    url = f"{ORDERS_BASE_URL}/api/v1/orders"
+
+    response = requests.get(url)
+    if response.status_code == 400:
+        return {"error": response.json().get("error", "Invalid status")}
+    response.raise_for_status()
+    return response.json()
+```
+
+You can see the full source code
+under [tools_products_catalog.py](https://github.com/dominikcebula/aws-ai-bedrock-agentcore-shopping-agent/blob/main/agent-shopping-agent/tools_products_catalog.py)
+and [tools_orders.py](https://github.com/dominikcebula/aws-ai-bedrock-agentcore-shopping-agent/blob/main/agent-shopping-agent/tools_orders.py).
+
+Microservices URLs are exposed as environment variables, for which values are set during deployment stage by
+automatically fetching them based on the AWS Elastic Beanstalk environment name.
 
 ### Backing Services
 
