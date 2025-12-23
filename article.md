@@ -456,7 +456,7 @@ Having backing microservice and agent code deployed to AWS, you can invoke the a
 
 There are two possible ways.
 
-First, is to
+First, it is to
 use [agent_client_remote.py](https://github.com/dominikcebula/aws-ai-bedrock-agentcore-shopping-agent/blob/main/agent-shopping-agent/agent_client_remote.py)
 which runs the client locally and sends the requests against Agent Hosted in AWS Bedrock AgentCore.
 
@@ -465,16 +465,21 @@ Remote AWS Client:
 
 ![demo-05.png](assets/demo-05.png)
 
-Second, is to use Amazon Bedrock AgentCore Web Console to send requests to the agent.
+Second, it is to use Amazon Bedrock AgentCore Web Console to send requests to the agent.
 
 ![demo-06.png](assets/demo-06.png)
 
 ## Further Enhancements
 
-TBD
+Below I am listing some enhancements that could be implemented in the future:
+
+- Short-term memory (STM) and long-term memory (LTM) support. User preferences extraction and storage.
+- Observability, Metrics, Traces, Logs
+- Agent Correctness Evaluation
 
 ## References
 
+- [Source Code on GitHub](https://github.com/dominikcebula/aws-ai-bedrock-agentcore-shopping-agent)
 - [Amazon Bedrock AgentCore Developer Guide](https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/what-is-bedrock-agentcore.html)
 - [Amazon Bedrock AgentCore Code Samples](https://github.com/awslabs/amazon-bedrock-agentcore-samples)
 - [Strands Agents Python SDK](https://strandsagents.com/latest/documentation/docs/)
