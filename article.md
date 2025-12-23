@@ -3,9 +3,10 @@
 ## Introduction
 
 In this article I will describe how I have created a simplified version of a shopping agent using Strands Agents
-Python SDK that is hosted in Amazon Bedrock AgentCore. Agent has access to a simplified Product Catalog and
-Order Management System that allows agent to create orders on user behalf using products available in the products
-catalog. It is possible to execute agent both locally and on AWS.
+Python SDK that is hosted in Amazon Bedrock AgentCore.
+
+Agent has access to a simplified Product Catalog and Order Management System that allows agent to create orders on user
+behalf using products available in the products catalog. It is possible to execute agent both locally and on AWS.
 
 The final result is a functional agent that can help the user pick the right products for their needs and create orders
 using prompts like:
@@ -28,6 +29,9 @@ Your order has been created successfully! Here are the details:
 
 **Total Value:** $1239.96
 ```
+
+The source code of the solution is available on GitHub:
+[https://github.com/dominikcebula/aws-ai-bedrock-agentcore-shopping-agent](https://github.com/dominikcebula/aws-ai-bedrock-agentcore-shopping-agent).
 
 ## Architecture
 
@@ -343,7 +347,54 @@ Which will result in the following response:
 
 ## Running the Agent on AWS
 
-TBD
+To run the agent on AWS, backing Microservices need to be deployed to AWS Elastic Beanstalk,
+and then the agent needs to be deployed to Bedrock AgentCore.
+
+Backing Microservices are deployed using EB CLI. To simplify the deployment, I have created a script like below:
+
+```bash
+#!/bin/bash
+
+AWS_REGION=$(aws configure get region)
+
+if [ ! -d ".elasticbeanstalk" ]; then
+	echo "⚙️  Initializing Elastic Beanstalk Environment ..."
+	eb init -p python-3.12 microservice-orders --region ${AWS_REGION} || {
+		echo "❌ Error occurred while initializing Elastic Beanstalk Environment"
+		exit 1
+	}
+	echo "✅ Done"
+else
+	echo "⏭️  Elastic Beanstalk already initialized, skipping ..."
+fi
+
+if ! eb status microservice-orders &>/dev/null; then
+	echo "📦 Creating Elastic Beanstalk Environment ..."
+	eb create microservice-orders || {
+		echo "❌ Error occurred while creating Elastic Beanstalk Environment"
+		exit 1
+	}
+	echo "✅ Done"
+else
+	echo "⏭️  Elastic Beanstalk environment already exists, skipping ..."
+fi
+
+echo "🚀 Deploying to Elastic Beanstalk Environment ..."
+eb deploy || {
+  echo "❌ Error occurred while deploying to Elastic Beanstalk Environment"
+  exit 1
+}
+echo "✅ Done"
+```
+
+This script for `microservice-products-catalog` is
+available [here](https://github.com/dominikcebula/aws-ai-bedrock-agentcore-shopping-agent/blob/main/microservice-products-catalog/deploy.sh)
+and for
+`microservice-orders` [here](https://github.com/dominikcebula/aws-ai-bedrock-agentcore-shopping-agent/blob/main/microservice-orders/deploy.sh).
+
+After running `deploy.sh` for each microservice, it will deploy the microservice to AWS Elastic Beanstalk.
+
+![demo-03.png](assets/demo-03.png)
 
 ## Further Enhancements
 
