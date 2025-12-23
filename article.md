@@ -465,6 +465,10 @@ Remote AWS Client:
 
 ![demo-05.png](assets/demo-05.png)
 
+Second, is to use Amazon Bedrock AgentCore Web Console to send requests to the agent.
+
+![demo-06.png](assets/demo-06.png)
+
 ## Further Enhancements
 
 TBD
