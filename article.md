@@ -32,6 +32,8 @@ Your order has been created successfully! Here are the details:
 **Total Value:** $1239.96
 ```
 
+Created order can be further managed using Agent or traditional REST API calls.
+
 The source code of the solution is available on GitHub:
 [https://github.com/dominikcebula/aws-ai-bedrock-agentcore-shopping-agent](https://github.com/dominikcebula/aws-ai-bedrock-agentcore-shopping-agent).
 
