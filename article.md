@@ -12,7 +12,9 @@ The final result is a functional agent that can help the user pick the right pro
 using prompts like:
 
 ```text
-I would like to buy a budget laptop for daily usage with at least 8GB RAM and 512 GB of storage. Please also include a monitor, mouse and a keyboard. Select product that match my criteria and create the order.
+I would like to buy a budget laptop for daily usage with at least 8GB RAM and 512 GB of storage.
+Please also include a monitor, mouse and a keyboard.
+Select product that match my criteria and create the order.
 ```
 
 Agent is processing the user request using LLM and MCP Tools. The result is a created order reported by the agent:
