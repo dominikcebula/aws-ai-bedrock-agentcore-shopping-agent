@@ -489,4 +489,22 @@ Below I am listing some enhancements that could be implemented in the future:
 
 ## Summary
 
-TBD
+In this article, I demonstrated how to build a shopping agent using the Strands Agents Python SDK and deploy it to
+Amazon Bedrock AgentCore. The solution consists of three components: an AI agent that processes natural language
+requests, and two backing microservices (Products Catalog and Order Management) that provide the data and business
+logic.
+
+The agent leverages MCP Tools to interact with the backing services, allowing it to browse products, understand user
+requirements, and create orders autonomously. By using the `@tool` decorator from the Strands SDK, integrating REST APIs
+as agent tools becomes straightforward.
+
+The architecture supports both local development and cloud deployment. Locally, the agent runs in interactive mode while
+microservices run on separate ports. In production, microservices are deployed to AWS Elastic Beanstalk, and the agent
+is hosted in Amazon Bedrock AgentCore Runtime, with environment discovery handled automatically during deployment.
+
+This approach demonstrates the power of combining LLMs with traditional microservices. The agent can interpret complex
+user requests like "find me a budget laptop with specific requirements and create an order" and execute multi-step
+workflows by orchestrating calls to the appropriate tools.
+
+The full source code is available on
+[https://github.com/dominikcebula/aws-ai-bedrock-agentcore-shopping-agent](https://github.com/dominikcebula/aws-ai-bedrock-agentcore-shopping-agent).
