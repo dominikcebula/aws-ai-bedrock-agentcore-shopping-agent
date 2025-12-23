@@ -452,6 +452,19 @@ The deployment process will look similar to:
 
 ![demo-04.png](assets/demo-04.png)
 
+Having backing microservice and agent code deployed to AWS, you can invoke the agent in Cloud.
+
+There are two possible ways.
+
+First, is to
+use [agent_client_remote.py](https://github.com/dominikcebula/aws-ai-bedrock-agentcore-shopping-agent/blob/main/agent-shopping-agent/agent_client_remote.py)
+which runs the client locally and sends the requests against Agent Hosted in AWS Bedrock AgentCore.
+
+The usage is similar to the local run, but with the difference that all operations are executed in the cloud using
+Remote AWS Client:
+
+![demo-05.png](assets/demo-05.png)
+
 ## Further Enhancements
 
 TBD
