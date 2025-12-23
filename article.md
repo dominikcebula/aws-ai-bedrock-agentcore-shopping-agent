@@ -396,6 +396,62 @@ After running `deploy.sh` for each microservice, it will deploy the microservice
 
 ![demo-03.png](assets/demo-03.png)
 
+Having deployed backing Microservices, the agent can be deployed to Bedrock AgentCore
+using [deploy.py](https://github.com/dominikcebula/aws-ai-bedrock-agentcore-shopping-agent/blob/main/agent-shopping-agent/deploy.py).
+
+The main part of this script is the AgetCore Starter Toolkit invocations for deploying the agent:
+
+```python
+def configure_agentcore_runtime():
+    print("⚙️  Configuring AgentCore Runtime...")
+    agentcore_runtime = Runtime()
+    agentcore_runtime.configure(
+        entrypoint="agent_runner_aws.py",
+        auto_create_execution_role=True,
+        auto_create_ecr=True,
+        requirements_file="requirements.txt",
+        region=region,
+        agent_name=agent_name
+    )
+    print("✅ AgentCore Runtime configured successfully.")
+
+    return agentcore_runtime
+
+
+def launch_agentcore_runtime(agentcore_runtime, env_vars: dict):
+    print("🚀 Launching Agent to AgentCore Runtime...")
+    print("⏳ This may take several minutes...")
+    print(f"🔧 Environment variables: {env_vars}")
+    launch_result = agentcore_runtime.launch(env_vars=env_vars)
+    print("✅ Launch completed")
+    print(f"🤖 Agent ARN: {launch_result.agent_arn}")
+    print(f"🆔 Agent ID: {launch_result.agent_id}")
+
+    return launch_result
+```
+
+Additionally, [deploy.py](https://github.com/dominikcebula/aws-ai-bedrock-agentcore-shopping-agent/blob/main/agent-shopping-agent/deploy.py)
+dynamically discoveres the URLs of the backing Microservices deployed to AWS Elastic Beanstalk and exposes them as
+environment variables for the agent to use, when invoking MCP Tools which are invoking backing REST APIs.
+
+See the full source code
+under [deploy.py](https://github.com/dominikcebula/aws-ai-bedrock-agentcore-shopping-agent/blob/main/agent-shopping-agent/deploy.py).
+
+To run agent deploy code
+under [deploy.py](https://github.com/dominikcebula/aws-ai-bedrock-agentcore-shopping-agent/blob/main/agent-shopping-agent/deploy.py)
+you need to execute the following commands:
+
+```bash
+python -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+python deploy.py
+```
+
+The deployment process will look similar to:
+
+![demo-04.png](assets/demo-04.png)
+
 ## Further Enhancements
 
 TBD
