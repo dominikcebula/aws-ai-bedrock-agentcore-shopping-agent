@@ -41,6 +41,9 @@ Orders microservice is used to create orders for products that the agent has bou
 
 - Run agent using a local runner - agent will run in an interactive mode
   ```bash
+  python -m venv .venv
+  source .venv/bin/activate
+  pip install -r requirements.txt
   python agent_runner_local.py
   ```
 
