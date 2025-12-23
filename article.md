@@ -477,6 +477,8 @@ Below I am listing some enhancements that could be implemented in the future:
 - Short-term memory (STM) and long-term memory (LTM) support. User preferences extraction and storage.
 - Observability, Metrics, Traces, Logs
 - Agent Correctness Evaluation
+- Security
+- Amazon Bedrock AgentCore Gateway
 
 ## References
 
