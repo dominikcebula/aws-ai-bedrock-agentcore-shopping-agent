@@ -123,8 +123,7 @@ under  [agent.py](https://github.com/dominikcebula/aws-ai-bedrock-agentcore-shop
 ### MCP Tools
 
 Agent is using data accessed via REST APIs from backing services exposed as MCP Tools. The following code snippet shows
-MCP Tools made
-available for the agent. Each MCP Tool is acting as a proxy to the backing service REST API.
+MCP Tools made available for the agent. Each MCP Tool is acting as a proxy to the backing service REST API.
 
 ```python
 @tool(description="List all products from the catalog")
@@ -138,6 +137,47 @@ def list_products() -> dict:
     url = f"{PRODUCTS_CATALOG_BASE_URL}/api/v1/products"
 
     response = requests.get(url)
+    response.raise_for_status()
+    return response.json()
+
+
+@tool(description="List products from the catalog filtered by category")
+def list_products_by_category(category: str) -> dict:
+    """
+    Tool description - List products from the catalog filtered by category.
+
+    #Args:
+        category: category to filter products (e.g., "Mice", "Keyboards", "Monitors",
+                  "Headsets", "Cameras", "Accessories", "Laptops")
+
+    #Returns:
+        A dictionary containing 'products' list and 'count' of products found.
+    """
+    url = f"{PRODUCTS_CATALOG_BASE_URL}/api/v1/products"
+    params = {"category": category}
+
+    response = requests.get(url, params=params)
+    response.raise_for_status()
+    return response.json()
+
+
+@tool(description="Get a single product by its ID")
+def get_product(product_id: int) -> dict:
+    """
+    Tool description - Get a single product by its ID.
+
+    #Args:
+        product_id: The unique identifier of the product.
+
+    #Returns:
+        A dictionary containing product details (id, name, price, category, stock),
+        or an error message if the product is not found.
+    """
+    url = f"{PRODUCTS_CATALOG_BASE_URL}/api/v1/products/{product_id}"
+
+    response = requests.get(url)
+    if response.status_code == 404:
+        return {"error": f"Product with ID {product_id} not found"}
     response.raise_for_status()
     return response.json()
 ```
@@ -188,12 +228,66 @@ You can see the full source code
 under [tools_products_catalog.py](https://github.com/dominikcebula/aws-ai-bedrock-agentcore-shopping-agent/blob/main/agent-shopping-agent/tools_products_catalog.py)
 and [tools_orders.py](https://github.com/dominikcebula/aws-ai-bedrock-agentcore-shopping-agent/blob/main/agent-shopping-agent/tools_orders.py).
 
-Microservices URLs are exposed as environment variables, for which values are set during deployment stage by
+Microservices URLs are exposed as environment variables, for which values are set during the deployment stage by
 automatically fetching them based on the AWS Elastic Beanstalk environment name.
 
 ### Backing Services
 
-TBD
+Backing Services are implemented as REST APIs Microservices in Python Flask.
+
+Product catalog Microservice is exposing endpoints that allow to get information about products from the catalog. Below
+example code snippet shows sample products catalog operations.
+
+```python
+@app.route("/api/v1/products", methods=["GET"])
+def list_products():
+    category_filter = request.args.get("category")
+    products = get_all_products(category_filter)
+    return jsonify({"products": [p.to_dict() for p in products], "count": len(products)})
+
+
+@app.route("/api/v1/products/<int:product_id>", methods=["GET"])
+def get_product_by_id(product_id: int):
+    product = get_product(product_id)
+    if not product:
+        return jsonify({"error": "Product not found"}), 404
+    return jsonify(product.to_dict())
+```
+
+In a similar way, Order Management System Microservice is exposing endpoints that allow to create, list, update and
+cancel
+orders. Below example code snippet shows sample order management operations.
+
+```python
+@app.route("/api/v1/orders", methods=["POST"])
+def create_order_route():
+    data = request.get_json()
+
+    if not data or "items" not in data or not data["items"]:
+        return jsonify({"error": "Order must contain at least one item"}), 400
+
+    try:
+        items = parse_order_items(data["items"])
+    except (KeyError, ValueError) as e:
+        return jsonify({"error": f"Invalid item data: {str(e)}"}), 400
+
+    order = create_order(items)
+    return jsonify(order.to_dict()), 201
+
+
+@app.route("/api/v1/orders/<order_id>", methods=["GET"])
+def get_order_route(order_id: str):
+    order = get_order(order_id)
+
+    if not order:
+        return jsonify({"error": "Order not found"}), 404
+
+    return jsonify(order.to_dict())
+```
+
+You can see the full source code
+under [microservice-products-catalog](https://github.com/dominikcebula/aws-ai-bedrock-agentcore-shopping-agent/tree/main/microservice-products-catalog)
+and [microservice-orders](https://github.com/dominikcebula/aws-ai-bedrock-agentcore-shopping-agent/tree/main/microservice-orders).
 
 ## Deployment
 
